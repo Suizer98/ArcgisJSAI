@@ -2,26 +2,25 @@
   import MapView from "@arcgis/core/views/MapView";
   import "@arcgis/core/assets/esri/themes/light/main.css";
 
-  let centerText: string = "";
+  let centerText: string = ""
 
   const createMap = (domNode: HTMLElement) => {
-    try {
-      const view = new MapView({
-        container: domNode,
-        map: {
-          basemap: "streets-vector",
-        },
-        zoom: 15,
-        center: [-90.1928, 38.6226], // longitude, latitude
-      });
+    const view = new MapView({
+      container: domNode,
+      map: {
+        basemap: "streets-vector",
+      },
+      zoom: 15,
+      center: [-90.1928, 38.6226], // longitude, latitude
+    })
 
     // Watch for center changes and update the text
     view.watch("center", (center) => {
       if (center) {
-        centerText = `Center: ${center.longitude.toFixed(4)}, ${center.latitude.toFixed(4)}`;
+        centerText = `Center: ${center.longitude.toFixed(4)}, ${center.latitude.toFixed(4)}`
       }
-    });
-  };
+    })
+  }
 </script>
 
 <main>
