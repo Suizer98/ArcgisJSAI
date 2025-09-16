@@ -1,7 +1,7 @@
 <script lang="ts">
   import { slide } from 'svelte/transition'
   import { fly } from 'svelte/transition'
-  import { Button } from '$lib/components/ui/button'
+  import { Button, buttonVariants } from '$lib/components/ui/button/index.js'
   import { Input } from '$lib/components/ui/input'
   import { Card, CardContent, CardHeader, CardTitle } from '$lib/components/ui/card'
 
@@ -29,9 +29,10 @@
 
 <!-- Chat Toggle Button -->
 <Button 
-  class="fixed top-4 right-4 z-50 w-10 h-10 p-0"
-  on:click={toggleSidebar}
+  class="fixed top-4 right-4 z-[9999] size-10"
+  onclick={toggleSidebar}
   variant="outline"
+  size="icon"
 >
   <svg 
     class="w-5 h-5" 
@@ -81,7 +82,7 @@
               on:keydown={handleKeydown}
               class="flex-1"
             />
-            <Button on:click={sendMessage} size="sm">
+            <Button onclick={sendMessage} size="sm">
               Send
             </Button>
           </div>
