@@ -1,28 +1,55 @@
 # ArcGIS JS + AI
 
-An interactive mapping application built with Svelte, TypeScript, and the ArcGIS API for JavaScript, featuring real-time coordinate tracking and responsive design.
+Interactive Svelte + ArcGIS JS SDK mapping application with AI-powered chat by Groq LLM for natural language map navigation and more.
 
-**Tech stacks:**
+## Features
 
-![Tech stacks](https://skillicons.dev/icons?i=svelte,typescript,js,vite,docker,bash)
+- AI chat sidebar for map navigation
+- Real-time coordinate display
+- Draggable and resizable interface
+- Tool calling with Groq API
 
-## Local Setup
+### Tech Stacks
+![Tech stacks](https://skillicons.dev/icons?i=svelte,typescript,js,vite,docker,bash,vercel,ai)
 
-### Using npm
+## Setup
 
-Install dependencies and run in dev mode:
+### Prerequisites
+- Node.js 20+
+- Docker (optional)
+- Groq API key
+
+### Installation
+
+1. Copy `.env` file and put your API key:
+```
+VITE_GROQ_API_KEY=your_groq_api_key_here
+```
+
+2. Install dependencies:
 ```bash
 npm install
+```
+
+3. Run development server:
+```bash
 npm run dev
 ```
 
-Open your browser to `http://localhost:3000`
-
-### Using Docker
-
-Build and run with Docker Compose:
+Or with Docker:
 ```bash
 docker-compose up --build
 ```
 
-Open your browser to `http://localhost:3000`
+Open `http://localhost:3000`
+
+## Usage
+
+The AI chat sidebar opens by default. Ask it to navigate the map:
+
+- "Take me to New York"
+- "Zoom to Singapore" 
+- "Show me Tokyo at zoom level 15"
+- "What's my current location?"
+
+The chat sidebar can be dragged and resized horizontally.
