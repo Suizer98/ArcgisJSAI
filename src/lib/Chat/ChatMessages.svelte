@@ -21,7 +21,6 @@
   // Delete message
   function deleteMessage(messageId: string) {
     // This would need to be implemented in aiService
-    console.log('Delete message:', messageId)
   }
 </script>
 

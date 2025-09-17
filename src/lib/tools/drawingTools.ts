@@ -107,16 +107,6 @@ export const drawLineTool = tool({
   }) => {
     try {
       const parsedColor = parseColor(color);
-      console.log(
-        'Drawing line from',
-        startLatitude,
-        startLongitude,
-        'to',
-        endLatitude,
-        endLongitude,
-        'in color',
-        parsedColor
-      );
 
       // Actually draw the line on the map
       const result = await mapController.drawLine(
@@ -217,18 +207,6 @@ export const drawPointTool = tool({
       const parsedFillColor = fillColor ? parseColor(fillColor) : null;
       const parsedOutlineColor = outlineColor ? parseColor(outlineColor) : null;
 
-      console.log(
-        'Drawing point at',
-        latitude,
-        longitude,
-        'in color',
-        parsedColor,
-        'with fill',
-        parsedFillColor,
-        'outline',
-        parsedOutlineColor
-      );
-
       // Actually draw the point on the map
       const result = await mapController.drawPoint(
         latitude,
@@ -322,14 +300,6 @@ export const drawRectangleTool = tool({
     opacity = 0.3,
   }) => {
     try {
-      console.log('Drawing rectangle:', {
-        southwest,
-        northeast,
-        color,
-        fillColor,
-        opacity,
-      });
-
       const borderColor = parseColor(color);
       const fill = fillColor ? parseColor(fillColor) : borderColor;
 
@@ -391,8 +361,6 @@ export const drawPolygonTool = tool({
   }),
   execute: async ({ vertices, color = 'red', fillColor, opacity = 0.3 }) => {
     try {
-      console.log('Drawing polygon:', { vertices, color, fillColor, opacity });
-
       const borderColor = parseColor(color);
       const fill = fillColor ? parseColor(fillColor) : borderColor;
 
@@ -473,15 +441,6 @@ export const drawCircleTool = tool({
     filled = false,
   }) => {
     try {
-      console.log('Drawing circle:', {
-        center,
-        radius,
-        color,
-        fillColor,
-        opacity,
-        filled,
-      });
-
       // Parse colors
       const borderColor = parseColor(color);
       const fill = filled && fillColor ? parseColor(fillColor) : null;
@@ -540,8 +499,6 @@ export const drawArrowTool = tool({
   }),
   execute: async ({ start, end, color = 'red', size = 10 }) => {
     try {
-      console.log('Drawing arrow:', { start, end, color, size });
-
       const borderColor = parseColor(color);
 
       // Draw the main line
@@ -668,16 +625,6 @@ export const drawGridTool = tool({
     opacity = 0.3,
   }) => {
     try {
-      console.log('Drawing grid:', {
-        center,
-        rows,
-        columns,
-        cellSize,
-        color,
-        fillColor,
-        opacity,
-      });
-
       const borderColor = parseColor(color);
       const fill = fillColor ? parseColor(fillColor) : borderColor;
 
@@ -750,8 +697,6 @@ export const clearGraphicsTool = tool({
   }),
   execute: async ({ type = 'all', color }) => {
     try {
-      console.log('Clearing graphics from map:', { type, color });
-
       // Clear graphics from the map with specific type and color
       const result = await mapController.clearGraphics(type, color);
 

@@ -12,10 +12,6 @@ export class ToolExecutor {
       return toolResults;
     }
 
-    console.log(
-      `Tools called but not all executed - ${toolCalls.length} calls, ${toolResults.length} results. Executing missing ones manually...`
-    );
-
     // Find which tools were already executed
     const executedToolNames = new Set(
       toolResults.map(result => result.toolName)
@@ -24,18 +20,8 @@ export class ToolExecutor {
       call => !executedToolNames.has(call.toolName)
     );
 
-    console.log(
-      'Missing tool calls to execute:',
-      missingToolCalls.map(call => call.toolName)
-    );
-
     for (const toolCall of missingToolCalls) {
       try {
-        console.log(
-          'Executing missing tool manually:',
-          toolCall.toolName,
-          toolCall.input
-        );
         const tool = mapTools[toolCall.toolName as keyof typeof mapTools];
         if (tool && tool.execute) {
           const toolResult = await tool.execute(toolCall.input || {}, {
@@ -46,7 +32,6 @@ export class ToolExecutor {
             toolName: toolCall.toolName,
             output: toolResult,
           });
-          console.log('Missing tool execution result:', toolResult);
         } else {
           console.error('Tool not found:', toolCall.toolName);
           toolResults.push({
@@ -72,7 +57,6 @@ export class ToolExecutor {
       }
     }
 
-    console.log('Manual tool execution completed. Results:', toolResults);
     return toolResults;
   }
 }

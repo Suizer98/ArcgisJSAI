@@ -9,23 +9,16 @@ export const getCurrentLocationTool = tool({
   inputSchema: z.object({}),
   execute: async () => {
     try {
-      console.log('Getting current location via AI tool...');
-
       // Try geolocation with retry logic
       let result = await mapController.getCurrentLocation();
       let retryCount = 0;
       const maxRetries = 2;
 
       while (!result.success && retryCount < maxRetries) {
-        console.log(
-          `Geolocation attempt ${retryCount + 1} failed, retrying...`
-        );
         await new Promise(resolve => setTimeout(resolve, 500)); // Wait 500ms before retry
         result = await mapController.getCurrentLocation();
         retryCount++;
       }
-
-      console.log('AI Geolocation result:', result);
 
       // Return a more detailed response that the AI service can process
       if (result.success && result.coordinates) {
@@ -39,7 +32,6 @@ export const getCurrentLocationTool = tool({
             'Your Location', // Label
             'location' // Marker type for location markers
           );
-          console.log('Marker placed at current location:', markerResult);
         } catch (markerError) {
           console.error(
             'Failed to place marker at current location:',
@@ -54,7 +46,6 @@ export const getCurrentLocationTool = tool({
             result.coordinates.lng,
             15 // Zoom level 15 for good detail
           );
-          console.log('Map recentered to current location:', recenterResult);
         } catch (recenterError) {
           console.error(
             'Failed to recenter map to current location:',
@@ -70,7 +61,6 @@ export const getCurrentLocationTool = tool({
           location: `Latitude: ${result.coordinates.lat.toFixed(6)}, Longitude: ${result.coordinates.lng.toFixed(6)}`,
           type: 'location_with_marker',
         };
-        console.log('Returning success response:', response);
         return response;
       } else {
         const response = {
@@ -78,7 +68,6 @@ export const getCurrentLocationTool = tool({
           message: result.message || 'Failed to get current location',
           error: 'Geolocation failed',
         };
-        console.log('Returning failure response:', response);
         return response;
       }
     } catch (error) {
@@ -88,7 +77,6 @@ export const getCurrentLocationTool = tool({
         message: 'Failed to get current location',
         error: error instanceof Error ? error.message : 'Unknown error',
       };
-      console.log('Returning error response:', response);
       return response;
     }
   },
@@ -101,9 +89,7 @@ export const centerOnCurrentLocationTool = tool({
   inputSchema: z.object({}),
   execute: async () => {
     try {
-      console.log('Centering map on current location via AI tool...');
       const result = await mapController.centerOnCurrentLocation();
-      console.log('Center location result:', result);
 
       if (result.success && result.coordinates) {
         // Place a marker at the current location
@@ -116,7 +102,6 @@ export const centerOnCurrentLocationTool = tool({
             'Your Location', // Label
             'location' // Marker type for location markers
           );
-          console.log('Marker placed at current location:', markerResult);
         } catch (markerError) {
           console.error(
             'Failed to place marker at current location:',

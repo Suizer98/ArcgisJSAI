@@ -7,6 +7,8 @@
   import { chatStateService } from '$lib/services/chatStateService'
   import { hasValidApiKey } from '$lib/aiConfig'
   import { mapController } from '../Map/mapController'
+  import { isMobile } from '$lib/stores/mobileStore'
+  import { toggleMode } from 'mode-watcher'
   import ChatMessages from './ChatMessages.svelte'
   import ChatInput from './ChatInput.svelte'
   import QuickActions from './QuickActions.svelte'
@@ -49,9 +51,12 @@
   let resizeStartX = 0
   let resizeStartWidth = 0
   
-  // Get maximum width (half screen)
+  // Get maximum width (half screen on both desktop and mobile)
   function getMaxWidth() {
-    return Math.floor(window.innerWidth / 2)
+    if (typeof window !== 'undefined') {
+      return Math.floor(window.innerWidth / 2) // Half width on both desktop and mobile
+    }
+    return 400 // Default fallback
   }
   
   // Auto-scroll reference
@@ -73,6 +78,10 @@
   let initialized = false
   $: if (typeof window !== 'undefined' && !initialized) {
     initializeChat()
+    // Set half-width on mobile
+    if ($isMobile) {
+      chatWidth = Math.floor(window.innerWidth / 2)
+    }
     initialized = true
   }
 
@@ -186,6 +195,10 @@
     if (!isDragging) return
     const deltaX = event.clientX - dragStartX
     const maxWidth = getMaxWidth()
+    
+    // On mobile, don't allow dragging - keep half width
+    if ($isMobile) return
+    
     const newWidth = Math.max(280, Math.min(maxWidth, chatWidth - deltaX))
     chatWidth = newWidth
     dragStartX = event.clientX
@@ -212,6 +225,10 @@
     if (!isResizing) return
     const deltaX = event.clientX - resizeStartX
     const maxWidth = getMaxWidth()
+    
+    // On mobile, don't allow resizing - keep half width
+    if ($isMobile) return
+    
     const newWidth = Math.max(280, Math.min(maxWidth, resizeStartWidth - deltaX))
     chatWidth = newWidth
   }
@@ -223,27 +240,29 @@
   }
 </script>
 
-<!-- Chat Toggle Button -->
-<Button 
-  class="fixed top-4 right-4 z-[9999] size-10"
-  onclick={toggleSidebar}
-  variant="outline"
-  size="icon"
->
-  <svg 
-    class="w-5 h-5" 
-    fill="none" 
-    stroke="currentColor" 
-    viewBox="0 0 24 24"
+<!-- Chat Toggle Button (only show when sidebar is closed) -->
+{#if !isOpen}
+  <Button 
+    class="fixed top-4 right-4 z-[9999] size-10 bg-background/95 backdrop-blur-sm border-border hover:bg-accent hover:text-accent-foreground shadow-lg dark:bg-black dark:text-white dark:border-gray-700 dark:hover:bg-gray-800"
+    onclick={toggleSidebar}
+    variant="outline"
+    size="icon"
   >
-    <path 
-      stroke-linecap="round" 
-      stroke-linejoin="round" 
-      stroke-width="2" 
-      d="M4 6h16M4 12h16M4 18h16"
-    />
-  </svg>
-</Button>
+    <svg 
+      class="w-5 h-5" 
+      fill="none" 
+      stroke="currentColor" 
+      viewBox="0 0 24 24"
+    >
+      <path 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        stroke-width="2" 
+        d="M4 6h16M4 12h16M4 18h16"
+      />
+    </svg>
+  </Button>
+{/if}
 
 <!-- Chat Sidebar -->
 <div 
@@ -257,18 +276,35 @@
   <Card class="h-full rounded-none border-r-0 border-t-0 border-b-0 flex flex-col w-full relative">
     <!-- Draggable Header -->
     <CardHeader 
-      class="pb-3 flex-shrink-0 cursor-move select-none"
-      onmousedown={handleDragStart}
+      class="pb-3 flex-shrink-0 select-none {$isMobile ? '' : 'cursor-move'}"
+      onmousedown={$isMobile ? undefined : handleDragStart}
     >
       <div class="flex items-center justify-between">
         <CardTitle class="text-lg">ArcGIS AI Map Assistant</CardTitle>
         <div class="flex space-x-2">
+          <!-- Theme Toggle Button -->
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onclick={toggleMode}
+            class="p-1 h-8 w-8 relative"
+            title="Toggle theme"
+          >
+            <svg class="w-4 h-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="5"/>
+              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+            </svg>
+            <svg class="absolute w-4 h-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            <span class="sr-only">Toggle theme</span>
+          </Button>
           <!-- Close Button -->
           <Button 
             variant="ghost" 
             size="sm" 
             onclick={toggleSidebar}
-            class="p-1 h-8 w-8"
+            class="p-1 h-8 w-8 hover:bg-accent hover:text-accent-foreground text-foreground"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -302,11 +338,14 @@
     </div>
     
     <!-- Resize Handle -->
-    <div 
-      class="absolute left-0 top-0 bottom-0 w-1 cursor-ew-resize hover:bg-blue-500 hover:opacity-50 transition-opacity"
-      onmousedown={handleResizeStart}
-      role="separator"
-      aria-label="Resize chat sidebar"
-    ></div>
+    {#if !$isMobile}
+      <div 
+        class="absolute left-0 top-0 bottom-0 w-1 cursor-ew-resize hover:bg-blue-500 hover:opacity-50 transition-opacity"
+        onmousedown={handleResizeStart}
+        role="button"
+        tabindex="0"
+        aria-label="Resize chat sidebar"
+      ></div>
+    {/if}
   </Card>
 </div>

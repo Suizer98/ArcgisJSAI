@@ -7,8 +7,6 @@ export async function performWebSearch(
   location?: { lat: number; lng: number }
 ): Promise<{ success: boolean; results: any[]; message: string }> {
   try {
-    console.log('Performing web search for:', query, 'near:', location);
-
     // Generate dynamic results based on query and location
     const resultCount = Math.floor(Math.random() * 5) + 3; // 3-7 results
     const results = [];
@@ -215,9 +213,7 @@ export const webSearchTool = tool({
   }),
   execute: async ({ query, location }) => {
     try {
-      console.log('Performing web search via AI tool...');
       const result = await performWebSearch(query, location);
-      console.log('Web search result:', result);
 
       if (result.success) {
         return {

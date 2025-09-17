@@ -26,8 +26,6 @@ export class ResponseProcessor {
       return responseText;
     }
 
-    console.log('Processing tool results:', toolResults);
-
     // Separate successful and failed results
     const successfulResults = toolResults.filter(
       result => result.output?.success
@@ -43,7 +41,6 @@ export class ResponseProcessor {
     successfulResults.forEach((toolResult, index) => {
       try {
         const toolResultData = toolResult.output as any;
-        console.log('Processing successful tool result:', toolResultData);
 
         if (toolResultData) {
           // Show coordinates for geolocation results

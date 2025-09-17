@@ -55,9 +55,6 @@ export class AIService {
 
     // Keep only the last 2 messages
     this.messages = this.messages.slice(-2);
-    console.log(
-      `Cleared old messages, keeping ${this.messages.length} recent messages`
-    );
   }
 
   // Trim conversation history to reduce token usage
@@ -68,9 +65,6 @@ export class AIService {
 
     // Keep the last 3 messages (system messages are handled in the prompt)
     this.messages = this.messages.slice(-3);
-    console.log(
-      `Trimmed conversation history to ${this.messages.length} messages`
-    );
   }
 
   // Process user input and get AI response with tool calling
@@ -90,7 +84,6 @@ export class AIService {
 
     // Proactively trim conversation if it's getting too long
     if (this.messages.length > 10) {
-      console.log('Conversation getting long, trimming proactively...');
       this.trimConversationHistory();
     }
 
@@ -100,7 +93,6 @@ export class AIService {
 
     if (timeSinceLastRequest < this.minRequestInterval) {
       const waitTime = this.minRequestInterval - timeSinceLastRequest;
-      console.log(`Rate limiting: waiting ${waitTime}ms before next request`);
       await new Promise(resolve => setTimeout(resolve, waitTime));
     }
 
@@ -114,8 +106,6 @@ export class AIService {
       }));
 
       // Use AI SDK with tool calling
-      console.log('Available tools:', Object.keys(realMapTools));
-      console.log('Calling AI with tools...');
 
       let result;
       let lastError;
@@ -139,7 +129,6 @@ export class AIService {
           break; // Success, exit retry loop
         } catch (error) {
           lastError = error;
-          console.log(`AI call attempt ${attempt + 1} failed:`, error);
 
           // Check if it's a rate limit error
           const isRateLimit =
@@ -150,10 +139,6 @@ export class AIService {
               error.message.includes('tokens per minute'));
 
           if (isRateLimit) {
-            console.log(
-              'Rate limit detected, trimming conversation history...'
-            );
-
             // More aggressive trimming on subsequent rate limit hits
             if (attempt > 0) {
               this.clearOldMessages(); // Keep only last 2 messages
@@ -163,14 +148,10 @@ export class AIService {
 
             // For rate limits, wait longer before retry
             const waitTime = Math.min(5000 * Math.pow(2, attempt), 30000); // 5s, 10s, 20s, 30s max
-            console.log(
-              `Rate limit hit, waiting ${waitTime}ms before retry...`
-            );
             await new Promise(resolve => setTimeout(resolve, waitTime));
           } else if (attempt < this.maxRetries) {
             // For other errors, use shorter wait time
             const waitTime = Math.min(1000 * Math.pow(2, attempt), 5000);
-            console.log(`Waiting ${waitTime}ms before retry...`);
             await new Promise(resolve => setTimeout(resolve, waitTime));
           }
         }
@@ -179,7 +160,6 @@ export class AIService {
       if (!result) {
         throw lastError || new Error('All retry attempts failed');
       }
-      console.log('AI call completed, processing result...');
 
       // Get response text and tool results
       let responseText = result.text || '';
@@ -193,39 +173,19 @@ export class AIService {
         aiMessages
       );
 
-      console.log('Tool calls found:', toolCalls.length);
-      console.log('Tool results found:', toolResults.length);
-
       // Handle malformed responses from AI
       const malformedPattern = /<function[^>]*>/g;
-
-      console.log('AI result:', {
-        text: responseText,
-        toolCalls: toolCalls,
-        toolResults: toolResults,
-        hasMalformedTags: malformedPattern.test(responseText),
-        rawResponse: result,
-      });
 
       // Process the response
       responseText = responseText.trim();
       if (malformedPattern.test(responseText)) {
-        console.log(
-          'AI returned malformed response with HTML-like tags:',
-          responseText
-        );
-        console.log(
-          'This suggests the AI model is not properly configured for tool calling'
-        );
+        console.log('AI returned malformed response - retrying...');
         responseText =
           'I encountered an issue with the response format. Please try asking again.';
       }
 
       // If AI didn't provide text but called tools, provide a helpful response
       if (!responseText && toolCalls.length > 0) {
-        console.log(
-          'AI called tools but provided no text - providing helpful response'
-        );
         responseText =
           "I've performed the requested operations. Here are the results:";
       }
@@ -249,9 +209,6 @@ export class AIService {
         );
 
         if (geolocationCall && (!toolResults || toolResults.length === 0)) {
-          console.log(
-            'Geolocation tool called but no results - trying direct fallback'
-          );
           try {
             const { mapController } = await import('../Map/mapController');
             const directResult = await mapController.getCurrentLocation();
