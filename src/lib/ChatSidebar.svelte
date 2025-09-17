@@ -5,12 +5,64 @@
   import { Card, CardContent, CardHeader, CardTitle } from '$lib/components/ui/card'
   import { aiService } from '$lib/services/aiService'
   import { chatStateService } from '$lib/services/chatStateService'
+  import { hasValidApiKey } from '$lib/aiConfig'
 
   export let isOpen = true
 
   let input = ''
   let messages: Array<{id: string, role: 'user' | 'assistant', content: string}> = []
   let isLoading = false
+  
+  // Initialize with AI greeting
+  async function initializeChat() {
+    if (messages.length === 0) {
+      try {
+        // Generate a dynamic greeting using AI
+        const greeting = await generateAIGreeting()
+        aiService.addMessage('assistant', greeting)
+        updateMessages()
+      } catch (error) {
+        console.error('Error generating AI greeting:', error)
+        // Fallback to a simple greeting if AI fails
+        aiService.addMessage('assistant', 'Hi! I\'m your AI Map Assistant. How can I help you navigate and explore the map today?')
+        updateMessages()
+      }
+    }
+  }
+
+  // Default greeting message
+  const DEFAULT_GREETING = "Hi! I'm your ArcGIS AI Map Assistant. How can I help you navigate and explore the map today?"
+
+  // Generate AI greeting
+  async function generateAIGreeting(): Promise<string> {
+    // Return default greeting if no API key
+    if (!hasValidApiKey()) {
+      return DEFAULT_GREETING
+    }
+
+    try {
+      // Generate a dynamic greeting using AI
+      const { generateText } = await import('ai')
+      const { createGroq } = await import('@ai-sdk/groq')
+      const { getApiKey } = await import('$lib/aiConfig')
+      
+      const groq = createGroq({ apiKey: getApiKey() })
+      
+      const result = await generateText({
+        model: groq('llama-3.1-8b-instant'),
+        messages: [{
+          role: 'user',
+          content: "Generate a friendly, welcoming greeting for an AI Map Assistant. Keep it concise (1-2 sentences), enthusiastic about helping with maps and navigation, and encourage the user to ask questions. Don't include any map operations or technical details, just a warm welcome message."
+        }],
+        temperature: 0.8
+      })
+      
+      return result.text.trim()
+    } catch (error) {
+      console.error('Error generating AI greeting:', error)
+      return DEFAULT_GREETING
+    }
+  }
   
   // Draggable and resizable state
   let chatWidth = 320 // Default width
@@ -38,6 +90,11 @@
     if (messagesContainer) {
       messagesContainer.scrollTop = messagesContainer.scrollHeight
     }
+  }
+
+  // Initialize chat on component mount
+  $: if (typeof window !== 'undefined') {
+    initializeChat()
   }
 
   // Auto-scroll when messages change
@@ -179,7 +236,7 @@
       onmousedown={handleDragStart}
     >
       <div class="flex items-center justify-between">
-        <CardTitle class="text-lg">AI Map Assistant</CardTitle>
+        <CardTitle class="text-lg">ArcGIS AI Map Assistant</CardTitle>
         <div class="flex space-x-2">
           <!-- Close Button -->
           <Button 
