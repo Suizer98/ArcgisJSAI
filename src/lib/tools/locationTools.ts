@@ -4,7 +4,8 @@ import { mapController } from '../Map/mapController';
 
 // Get user's current location tool
 export const getCurrentLocationTool = tool({
-  description: "Get the user's current location using browser geolocation",
+  description:
+    "Get the user's current location using browser geolocation (NO parameters needed - do not pass latitude/longitude)",
   inputSchema: z.object({}),
   execute: async () => {
     try {

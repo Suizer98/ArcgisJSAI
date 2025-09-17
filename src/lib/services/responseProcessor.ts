@@ -71,7 +71,12 @@ export class ResponseProcessor {
             responseText += `\n🔍 Zoom: ${toolResultData.zoomLevel}`;
           }
           // Show drawing tool results
-          if (toolResultData.type === 'line' && toolResultData.coordinates) {
+          if (
+            toolResultData.type === 'line' &&
+            toolResultData.coordinates &&
+            toolResultData.coordinates.start &&
+            toolResultData.coordinates.end
+          ) {
             responseText += `\n📏 Line: ${toolResultData.coordinates.start.lat.toFixed(4)}, ${toolResultData.coordinates.start.lng.toFixed(4)} → ${toolResultData.coordinates.end.lat.toFixed(4)}, ${toolResultData.coordinates.end.lng.toFixed(4)}`;
           } else if (
             toolResultData.type === 'polygon' &&
@@ -86,17 +91,23 @@ export class ResponseProcessor {
             responseText += `\n⭕ Circle: Center (${toolResultData.coordinates.center.lat.toFixed(4)}, ${toolResultData.coordinates.center.lng.toFixed(4)}), Radius: ${toolResultData.coordinates.radius}m`;
           } else if (
             toolResultData.type === 'rectangle' &&
-            toolResultData.coordinates
+            toolResultData.coordinates &&
+            toolResultData.coordinates.southwest &&
+            toolResultData.coordinates.northeast
           ) {
-            responseText += `\n⬜ Rectangle: (${toolResultData.coordinates.north.toFixed(4)}, ${toolResultData.coordinates.west.toFixed(4)}) to (${toolResultData.coordinates.south.toFixed(4)}, ${toolResultData.coordinates.east.toFixed(4)})`;
+            responseText += `\n⬜ Rectangle: (${toolResultData.coordinates.southwest.latitude.toFixed(4)}, ${toolResultData.coordinates.southwest.longitude.toFixed(4)}) to (${toolResultData.coordinates.northeast.latitude.toFixed(4)}, ${toolResultData.coordinates.northeast.longitude.toFixed(4)})`;
           } else if (
             toolResultData.type === 'point' &&
-            toolResultData.coordinates
+            toolResultData.coordinates &&
+            toolResultData.coordinates.lat !== undefined &&
+            toolResultData.coordinates.lng !== undefined
           ) {
             responseText += `\n📍 Point: (${toolResultData.coordinates.lat.toFixed(4)}, ${toolResultData.coordinates.lng.toFixed(4)})${toolResultData.label ? ` - ${toolResultData.label}` : ''}`;
           } else if (
             toolResultData.type === 'location_with_marker' &&
-            toolResultData.coordinates
+            toolResultData.coordinates &&
+            toolResultData.coordinates.lat !== undefined &&
+            toolResultData.coordinates.lng !== undefined
           ) {
             responseText += `\n📍 Location marked: (${toolResultData.coordinates.lat.toFixed(4)}, ${toolResultData.coordinates.lng.toFixed(4)}) - Your Location`;
           } else if (toolResultData.type === 'clear') {

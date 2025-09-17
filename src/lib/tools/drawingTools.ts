@@ -286,15 +286,24 @@ export const drawPointTool = tool({
 
 // Draw rectangle tool
 export const drawRectangleTool = tool({
-  description: 'Draw a rectangle on the map with specified corners',
+  description:
+    'Draw a rectangle on the map using southwest and northeast corner coordinates (NOT center, rows, columns, or cellSize)',
   inputSchema: z.object({
     southwest: z.object({
-      latitude: z.number().describe('Southwest corner latitude'),
-      longitude: z.number().describe('Southwest corner longitude'),
+      latitude: z
+        .number()
+        .describe('Southwest corner latitude (required for rectangles)'),
+      longitude: z
+        .number()
+        .describe('Southwest corner longitude (required for rectangles)'),
     }),
     northeast: z.object({
-      latitude: z.number().describe('Northeast corner latitude'),
-      longitude: z.number().describe('Northeast corner longitude'),
+      latitude: z
+        .number()
+        .describe('Northeast corner latitude (required for rectangles)'),
+      longitude: z
+        .number()
+        .describe('Northeast corner longitude (required for rectangles)'),
     }),
     color: z.string().optional().describe('Color of the rectangle border'),
     fillColor: z.string().optional().describe('Fill color of the rectangle'),
@@ -423,7 +432,7 @@ export const drawPolygonTool = tool({
 // Draw circle tool
 export const drawCircleTool = tool({
   description:
-    'Draw a circle on the map with specified center point and radius',
+    'Draw a circle on the map with specified center point and radius (NOT for rectangles or grids)',
   inputSchema: z.object({
     center: z.object({
       latitude: z.number().describe('Latitude of the circle center'),
@@ -622,7 +631,8 @@ export const drawArrowTool = tool({
 
 // Draw grid tool
 export const drawGridTool = tool({
-  description: 'Draw a grid of rectangles on the map',
+  description:
+    'Draw a grid of rectangles on the map using center point, rows, and columns (NOT for drawing single rectangles)',
   inputSchema: z.object({
     center: z.object({
       latitude: z.number().describe('Center latitude of the grid'),
