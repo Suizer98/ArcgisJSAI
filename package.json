@@ -25,9 +25,13 @@
     "vite": "^7.1.2"
   },
   "dependencies": {
+    "@ai-sdk/groq": "^2.0.19",
+    "@ai-sdk/svelte": "^3.0.44",
     "@tailwindcss/vite": "^4.0.0",
+    "ai": "^5.0.44",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.13"
+    "tailwindcss": "^4.1.13",
+    "zod": "^4.1.9"
   }
 }

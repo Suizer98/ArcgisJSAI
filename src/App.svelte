@@ -1,13 +1,11 @@
 <script lang="ts">
   import MapView from './lib/MapView.svelte'
   import ChatSidebar from './lib/ChatSidebar.svelte'
-
-  let messages: string[] = []
 </script>
 
 <main>
   <MapView />
-  <ChatSidebar bind:messages />
+  <ChatSidebar />
 </main>
 
 <style>

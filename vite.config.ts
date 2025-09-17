@@ -16,5 +16,8 @@ export default defineConfig({
     alias: {
       $lib: path.resolve('./src/lib'),
     },
+  },
+  define: {
+    'process.env': process.env
   }
 })
