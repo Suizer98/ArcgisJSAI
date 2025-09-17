@@ -80,11 +80,11 @@ export class AIService {
       })
 
       // Process the response
-      let responseText = result.text
+      let responseText = result.text.trim()
       
       // Add tool call information if any tools were used
       if (result.toolCalls && result.toolCalls.length > 0) {
-        responseText += '\n\n**Map Operations Performed:**'
+        responseText += '**Map Operations Performed:**'
         result.toolCalls.forEach((toolCall, index) => {
           responseText += `\n- ${toolCall.toolName}: ${JSON.stringify(toolCall.input)}`
         })
@@ -94,11 +94,41 @@ export class AIService {
       if (result.toolResults && result.toolResults.length > 0) {
         responseText += '\n\n**Results:**'
         result.toolResults.forEach((toolResult, index) => {
-          const toolResultData = toolResult.result as any
-          if (toolResultData && toolResultData.success) {
-            responseText += `\n✅ ${toolResultData.message}`
-          } else if (toolResultData) {
-            responseText += `\n❌ ${toolResultData.message}`
+          const toolResultData = toolResult.output as any
+          
+          if (toolResultData) {
+            if (toolResultData.success) {
+              // Show only coordinates and location, skip the generic success message
+              if (toolResultData.coordinates) {
+                responseText += `\n✅ ${toolResultData.coordinates.latitude.toFixed(6)}, ${toolResultData.coordinates.longitude.toFixed(6)}`
+              }
+              if (toolResultData.location) {
+                responseText += `\n🏙️ ${toolResultData.location}`
+              }
+              if (toolResultData.zoomLevel) {
+                responseText += `\n🔍 Zoom: ${toolResultData.zoomLevel}`
+              }
+              if (toolResultData.state) {
+                responseText += `\n📊 Current: ${toolResultData.state.center.latitude.toFixed(6)}, ${toolResultData.state.center.longitude.toFixed(6)}, Zoom ${toolResultData.state.zoom}`
+              }
+              if (toolResultData.currentState) {
+                responseText += `\n📊 Current: ${toolResultData.currentState.center.latitude.toFixed(6)}, ${toolResultData.currentState.center.longitude.toFixed(6)}, Zoom ${toolResultData.currentState.zoom}`
+              }
+              if (toolResultData.availableOperations) {
+                responseText += `\n🛠️ Available Operations:`
+                toolResultData.availableOperations.forEach((op: string) => {
+                  responseText += `\n• ${op}`
+                })
+              }
+            } else {
+              responseText += `\n❌ ${toolResultData.message}`
+              if (toolResultData.error) {
+                responseText += `\nError: ${toolResultData.error}`
+              }
+            }
+          } else {
+            // Fallback if toolResultData is null/undefined
+            responseText += `\n⚠️ Tool executed but no result data available`
           }
         })
       }

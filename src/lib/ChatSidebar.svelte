@@ -6,12 +6,11 @@
   import { aiService } from '$lib/services/aiService'
   import { chatStateService } from '$lib/services/chatStateService'
 
-  export let isOpen = false
+  export let isOpen = true
 
   let input = ''
   let messages: Array<{id: string, role: 'user' | 'assistant', content: string}> = []
   let isLoading = false
-  let isExpanded = false
   
   // Draggable and resizable state
   let chatWidth = 320 // Default width

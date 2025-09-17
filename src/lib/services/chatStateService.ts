@@ -12,7 +12,7 @@ class ChatStateService {
   private state = writable<ChatState>({
     messages: [],
     isLoading: false,
-    isOpen: false,
+    isOpen: true,
     input: ''
   })
 
