@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store'
-import type { ChatMessage } from './aiService'
+import type { ChatMessage } from './types'
 
 export interface ChatState {
   messages: ChatMessage[]

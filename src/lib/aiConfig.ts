@@ -41,5 +41,5 @@ export function getApiKey(): string {
 // Helper function to validate API key
 export function hasValidApiKey(): boolean {
   const key = getApiKey()
-  return key && key.length > 0 && key !== 'your_actual_groq_api_key_here'
+  return Boolean(key && key.length > 0 && key !== 'your_actual_groq_api_key_here')
 }
