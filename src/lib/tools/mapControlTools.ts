@@ -1,6 +1,6 @@
 import { tool } from 'ai';
 import { z } from 'zod';
-import { mapController } from '../mapController';
+import { mapController } from '../Map/mapController';
 
 // Set map center tool
 export const setMapCenterTool = tool({

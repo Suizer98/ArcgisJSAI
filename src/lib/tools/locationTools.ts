@@ -1,6 +1,6 @@
 import { tool } from 'ai';
 import { z } from 'zod';
-import { mapController } from '../mapController';
+import { mapController } from '../Map/mapController';
 
 // Get user's current location tool
 export const getCurrentLocationTool = tool({

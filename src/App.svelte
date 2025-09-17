@@ -1,6 +1,6 @@
 <script lang="ts">
-  import MapView from './lib/MapView.svelte'
-  import ChatSidebar from './lib/ChatSidebar.svelte'
+  import { MapView } from './lib/Map'
+  import { ChatSidebar } from './lib/Chat'
 </script>
 
 <main>

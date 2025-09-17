@@ -1,6 +1,6 @@
 import { tool } from 'ai';
 import { z } from 'zod';
-import { mapController } from '../mapController';
+import { mapController } from '../Map/mapController';
 
 // Helper function to parse and validate colors
 function parseColor(colorInput: string): string {

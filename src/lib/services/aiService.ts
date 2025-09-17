@@ -162,7 +162,7 @@ export class AIService {
             'Geolocation tool called but no results - trying direct fallback'
           );
           try {
-            const { mapController } = await import('../mapController');
+            const { mapController } = await import('../Map/mapController');
             const directResult = await mapController.getCurrentLocation();
 
             if (directResult.success && directResult.coordinates) {

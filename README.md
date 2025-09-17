@@ -4,17 +4,19 @@ Interactive Svelte + ArcGIS JS SDK mapping application with AI-powered chat by G
 
 ## Features
 
-- AI chat sidebar for map navigation
-- Real-time coordinate display
-- Draggable and resizable interface
-- Tool calling with Groq API
+- AI chat for map navigation
+- Drawing tools (markers, lines, polygons)
+- Location services & web search
+- Draggable/resizable interface
 
 ### Tech Stacks
+
 ![Tech stacks](https://skillicons.dev/icons?i=svelte,typescript,js,vite,docker,bash,vercel,ai)
 
 ## Setup
 
 ### Prerequisites
+
 - Node.js 20+
 - Docker (optional)
 - Groq API key
@@ -22,21 +24,25 @@ Interactive Svelte + ArcGIS JS SDK mapping application with AI-powered chat by G
 ### Installation
 
 1. Copy `.env` file and put your API key:
+
 ```
 VITE_GROQ_API_KEY=your_groq_api_key_here
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Run development server:
+
 ```bash
 npm run dev
 ```
 
 Or with Docker:
+
 ```bash
 docker-compose up --build
 ```
@@ -48,23 +54,20 @@ Open `http://localhost:3000`
 This project uses Prettier for code formatting. You can format your code using:
 
 ```bash
-# Format all files
 npm run format
-
-# Check formatting without making changes
 npm run format:check
 
-# Format with Docker
 docker exec -it arcgisjsai-arcgisjsai-1 npm run format
 ```
 
 ## Usage
 
-The AI chat sidebar opens by default. Ask it to navigate the map:
+Ask the AI to navigate and interact with the map:
 
 - "Take me to New York"
-- "Zoom to Singapore" 
-- "Show me Tokyo at zoom level 15"
+- "Add a marker here"
+- "Find restaurants near me"
+- "Zoom to Singapore"
 - "What's my current location?"
 
-The chat sidebar can be dragged and resized horizontally.
+The chat sidebar is draggable and resizable.
