@@ -20,7 +20,6 @@ import {
   getCurrentLocationTool,
   centerOnCurrentLocationTool,
 } from './locationTools';
-import { webSearchTool } from './webSearchTools';
 
 // Export all tools
 export const mapTools = {
@@ -44,9 +43,6 @@ export const mapTools = {
   drawArrow: drawArrowTool,
   drawGrid: drawGridTool,
   clearGraphics: clearGraphicsTool,
-
-  // Web search tools
-  webSearch: webSearchTool,
 };
 
 // Re-export individual tools for direct imports if needed
@@ -71,7 +67,4 @@ export {
   // Location tools
   getCurrentLocationTool,
   centerOnCurrentLocationTool,
-
-  // Web search tools
-  webSearchTool,
 };

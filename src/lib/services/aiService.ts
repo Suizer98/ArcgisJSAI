@@ -7,8 +7,8 @@ import { ToolExecutor } from './toolExecutor';
 import { ResponseProcessor } from './responseProcessor';
 import type { ChatMessage, AIResponse } from './types';
 
-// Remove webSearch from available tools since it provides fake data
-const { webSearch, ...realMapTools } = mapTools;
+// Use all available map tools
+const realMapTools = mapTools;
 
 export class AIService {
   private messages: ChatMessage[] = [];
