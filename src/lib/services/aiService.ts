@@ -14,7 +14,7 @@ export class AIService {
   private messages: ChatMessage[] = [];
   private groq: any;
   private lastRequestTime: number = 0;
-  private minRequestInterval: number = 1000; // 1 second between requests
+  private minRequestInterval: number = 2000; // 2 seconds between requests to avoid rate limiting
 
   constructor() {
     // Initialize Groq client
@@ -121,7 +121,10 @@ export class AIService {
       responseText = responseText.trim();
 
       // Handle malformed responses from AI
-      if (responseText.includes('<') && responseText.includes('>')) {
+      if (
+        responseText.includes('<function=') ||
+        responseText.includes('<function>')
+      ) {
         console.log(
           'AI returned malformed response with HTML-like tags:',
           responseText

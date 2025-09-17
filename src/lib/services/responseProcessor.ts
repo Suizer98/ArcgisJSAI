@@ -80,7 +80,8 @@ export class ResponseProcessor {
             responseText += `\n🔷 Polygon: ${toolResultData.coordinates.length} vertices`;
           } else if (
             toolResultData.type === 'circle' &&
-            toolResultData.coordinates
+            toolResultData.coordinates &&
+            toolResultData.coordinates.center
           ) {
             responseText += `\n⭕ Circle: Center (${toolResultData.coordinates.center.lat.toFixed(4)}, ${toolResultData.coordinates.center.lng.toFixed(4)}), Radius: ${toolResultData.coordinates.radius}m`;
           } else if (

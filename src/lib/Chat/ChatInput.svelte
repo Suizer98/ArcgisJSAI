@@ -12,7 +12,7 @@
 <form onsubmit={onsubmit} class="flex space-x-2">
   <Input 
     bind:value={input}
-    placeholder="Ask me to navigate the map..."
+    placeholder="Ask me to navigate..."
     onkeydown={onkeydown}
     class="flex-1"
     disabled={isLoading}

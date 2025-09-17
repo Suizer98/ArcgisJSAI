@@ -35,7 +35,8 @@ export const getCurrentLocationTool = tool({
             result.coordinates.lng,
             '#FF0000', // Red marker
             12, // Size
-            'Your Location' // Label
+            'Your Location', // Label
+            'location' // Marker type for location markers
           );
           console.log('Marker placed at current location:', markerResult);
         } catch (markerError) {
@@ -111,7 +112,8 @@ export const centerOnCurrentLocationTool = tool({
             result.coordinates.lng,
             '#FF0000', // Red marker
             12, // Size
-            'Your Location' // Label
+            'Your Location', // Label
+            'location' // Marker type for location markers
           );
           console.log('Marker placed at current location:', markerResult);
         } catch (markerError) {

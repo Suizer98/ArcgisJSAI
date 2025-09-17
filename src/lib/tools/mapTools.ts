@@ -1,5 +1,14 @@
 // Main map tools export file - imports from separate modules
-import { drawLineTool, drawPointTool, clearGraphicsTool } from './drawingTools';
+import {
+  drawLineTool,
+  drawPointTool,
+  drawCircleTool,
+  drawRectangleTool,
+  drawPolygonTool,
+  drawArrowTool,
+  drawGridTool,
+  clearGraphicsTool,
+} from './drawingTools';
 import {
   setMapCenterTool,
   setMapZoomTool,
@@ -29,6 +38,11 @@ export const mapTools = {
   // Drawing tools
   drawLine: drawLineTool,
   drawPoint: drawPointTool,
+  drawCircle: drawCircleTool,
+  drawRectangle: drawRectangleTool,
+  drawPolygon: drawPolygonTool,
+  drawArrow: drawArrowTool,
+  drawGrid: drawGridTool,
   clearGraphics: clearGraphicsTool,
 
   // Web search tools
@@ -40,6 +54,11 @@ export {
   // Drawing tools
   drawLineTool,
   drawPointTool,
+  drawCircleTool,
+  drawRectangleTool,
+  drawPolygonTool,
+  drawArrowTool,
+  drawGridTool,
   clearGraphicsTool,
 
   // Map control tools
