@@ -269,9 +269,9 @@
   class="fixed top-0 right-0 h-full z-40 transform transition-transform duration-300 ease-in-out flex"
   class:translate-x-full={!isOpen}
   class:translate-x-0={isOpen}
-  class:w-full={chatWidth < 400}
-  class:w-80={chatWidth >= 400 && chatWidth < 600}
-  style="width: {chatWidth >= 600 ? chatWidth + 'px' : 'auto'};"
+  class:w-full={!$isMobile && chatWidth < 400}
+  class:w-80={!$isMobile && chatWidth >= 400 && chatWidth < 600}
+  style="width: {$isMobile ? '70%' : (chatWidth >= 600 ? chatWidth + 'px' : 'auto')};"
 >
   <Card class="h-full rounded-none border-r-0 border-t-0 border-b-0 flex flex-col w-full relative">
     <!-- Draggable Header -->
@@ -280,7 +280,7 @@
       onmousedown={$isMobile ? undefined : handleDragStart}
     >
       <div class="flex items-center justify-between">
-        <CardTitle class="text-lg">ArcGIS AI Map Assistant</CardTitle>
+        <CardTitle class="text-lg">ArcGIS JS + AI</CardTitle>
         <div class="flex space-x-2">
           <!-- Theme Toggle Button -->
           <Button 

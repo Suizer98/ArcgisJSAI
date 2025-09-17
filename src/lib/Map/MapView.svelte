@@ -29,16 +29,16 @@
       const resetText = document.createElement("div")
       resetText.textContent = "Reset View"
       resetText.style.cssText = `
-        padding: 8px 12px;
+        padding: 6px 8px;
         font-family: 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
-        font-size: 14px;
+        font-size: 12px;
         font-weight: 500;
         color: #323232;
         cursor: pointer;
         background: transparent;
         border: none;
         text-align: center;
-        min-width: 100px;
+        min-width: 70px;
         transition: color 0.2s ease;
       `
       
