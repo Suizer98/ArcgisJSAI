@@ -43,6 +43,21 @@ docker-compose up --build
 
 Open `http://localhost:3000`
 
+## Code Formatting
+
+This project uses Prettier for code formatting. You can format your code using:
+
+```bash
+# Format all files
+npm run format
+
+# Check formatting without making changes
+npm run format:check
+
+# Format with Docker
+docker exec -it arcgisjsai-arcgisjsai-1 npm run format
+```
+
 ## Usage
 
 The AI chat sidebar opens by default. Ask it to navigate the map:

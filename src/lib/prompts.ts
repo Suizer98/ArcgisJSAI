@@ -114,39 +114,39 @@ Always be helpful, accurate, and provide clear explanations about geographic con
 - 16-20: Street/Neighborhood view`,
 
   examples: [
-    "Center the map on New York City",
-    "Zoom to level 12 to see the city",
-    "Show me San Francisco at street level",
-    "Find coordinates for Paris, France",
+    'Center the map on New York City',
+    'Zoom to level 12 to see the city',
+    'Show me San Francisco at street level',
+    'Find coordinates for Paris, France',
     "What's the best zoom level for viewing a neighborhood?",
-    "Get my current location",
-    "Center the map on my location",
+    'Get my current location',
+    'Center the map on my location',
     "What's my current coordinates?",
-    "Zoom in to street level around my location",
-    "Show me the area around my current position",
-    "Draw a line from my location to a nearby point",
-    "Create a line between two coordinates",
-    "Draw a polygon around this area",
-    "Draw a circle with 100 meter radius",
-    "Draw a rectangle around the city center",
-    "Mark this location with a point",
-    "Create a shape with multiple points",
-    "Draw a red line from here to there",
-    "Draw a blue circle with green fill",
-    "Draw a polygon in purple",
-    "Draw a rectangle in #FF0000",
-    "Mark this point in gold color",
-    "Remove the line I drew",
-    "Clear the map",
-    "Delete all graphics",
-    "Draw a line from my current location to a nearby point",
-    "Draw a line from here to a point 100 meters away",
-    "Create a line from my location to the next block"
-  ]
-}
+    'Zoom in to street level around my location',
+    'Show me the area around my current position',
+    'Draw a line from my location to a nearby point',
+    'Create a line between two coordinates',
+    'Draw a polygon around this area',
+    'Draw a circle with 100 meter radius',
+    'Draw a rectangle around the city center',
+    'Mark this location with a point',
+    'Create a shape with multiple points',
+    'Draw a red line from here to there',
+    'Draw a blue circle with green fill',
+    'Draw a polygon in purple',
+    'Draw a rectangle in #FF0000',
+    'Mark this point in gold color',
+    'Remove the line I drew',
+    'Clear the map',
+    'Delete all graphics',
+    'Draw a line from my current location to a nearby point',
+    'Draw a line from here to a point 100 meters away',
+    'Create a line from my location to the next block',
+  ],
+};
 
 export function getSystemPrompt(): string {
-  return AI_PROMPTS.system
+  return AI_PROMPTS.system;
 }
 
 export function getMapContextPrompt(): string {
@@ -157,5 +157,5 @@ ${AI_PROMPTS.mapCenter}
 ${AI_PROMPTS.mapZoom}
 
 Example commands users might ask:
-${AI_PROMPTS.examples.map(ex => `- "${ex}"`).join('\n')}`
+${AI_PROMPTS.examples.map(ex => `- "${ex}"`).join('\n')}`;
 }
