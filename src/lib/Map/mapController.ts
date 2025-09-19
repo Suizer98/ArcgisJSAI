@@ -586,20 +586,16 @@ class MapController {
     coordinates?: { lat: number; lng: number };
     accuracy?: number;
   }> {
-    console.log('Checking geolocation support...');
     if (!navigator.geolocation) {
-      console.log('Geolocation not supported');
       return {
         success: false,
         message: 'Geolocation is not supported by this browser',
       };
     }
 
-    console.log('Requesting geolocation...');
     return new Promise(resolve => {
       navigator.geolocation.getCurrentPosition(
         position => {
-          console.log('Geolocation success:', position);
           const coordinates = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
@@ -613,7 +609,6 @@ class MapController {
           });
         },
         error => {
-          console.log('Geolocation error:', error);
           let message = 'Unable to retrieve your location';
 
           switch (error.code) {
